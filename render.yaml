@@ -1,0 +1,29 @@
+# Configuración para Render (Blueprint): https://render.com/docs/blueprint-spec
+# Las claves secretas NO van aquí: Render las pide al crear el servicio (sync: false).
+services:
+  - type: web
+    name: tutor-lectura
+    runtime: python
+    plan: free
+    # Descarga los modelos de OCR durante la construcción, no en cada arranque.
+    buildCommand: pip install -r requirements.txt && python -c "from app.extractors.ocr import ocr_engine"
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: NVIDIA_API_KEY
+        sync: false
+      - key: ESCUELA_PIN
+        sync: false
+      - key: ESCUELA_NOMBRE
+        value: Escuela demo
+    # El plan gratuito borra los datos (materiales, estudiantes) en cada despliegue o reinicio.
+    # Para conservarlos, usa un plan de pago y quita los comentarios de estas líneas:
+    # disk:
+    #   name: datos
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    # y agrega en envVars:
+    #   - key: DATA_DIR
+    #     value: /var/data

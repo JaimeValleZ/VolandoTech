@@ -1,0 +1,56 @@
+/* Fuente de Tailwind. Se compila a tailwind.css con: npm run build:css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    /* Las clases de Tailwind como "flex" no deben ganarle al atributo hidden que usa el JS. */
+    [hidden] {
+        display: none !important;
+    }
+}
+
+@layer components {
+    /* Efecto plop: main.js agrega la clase al tocar un elemento interactivo. */
+    .plop {
+        @apply animate-plop;
+    }
+
+    .btn,
+    .part-btn {
+        transition: background 0.2s, transform 0.15s ease-out, box-shadow 0.2s;
+    }
+
+    .btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px var(--shadow-accent);
+    }
+
+    .part-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px var(--shadow-accent);
+    }
+
+    .nav-link {
+        transition: background 0.2s, color 0.2s, transform 0.15s ease-out;
+    }
+
+    .nav-link:hover {
+        transform: translateX(3px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .plop,
+    .animate-pop-in,
+    .animate-nudge {
+        animation: none;
+    }
+
+    .btn:hover:not(:disabled),
+    .part-btn:hover:not(:disabled),
+    .nav-link:hover {
+        transform: none;
+    }
+}

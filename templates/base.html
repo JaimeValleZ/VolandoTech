@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+{% from "_icons.html" import nav_icon %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ app_nombre }} - {{ escuela_nombre }}</title>
+    <meta name="color-scheme" content="light dark">
+    <script>
+        // Aplica el tema y la barra escondida antes de pintar la página, para que no parpadee al navegar.
+        (function () {
+            var root = document.documentElement;
+            var tema = null;
+            try {
+                tema = localStorage.getItem("tema");
+                if (localStorage.getItem("sidebarCollapsed") === "1") root.classList.add("sidebar-collapsed");
+            } catch (e) {}
+            // Sin elección guardada, se sigue el tema del sistema.
+            if (tema !== "dark" && tema !== "light") {
+                tema = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
+            root.setAttribute("data-theme", tema);
+        })();
+    </script>
+    <link rel="stylesheet" href="{{ static_url('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ static_url('css/tailwind.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <span class="brand-mark" aria-hidden="true">T</span>
+                <div class="brand-text">
+                    <p class="brand-app">{{ app_nombre }}</p>
+                    <p class="brand-school">{{ escuela_nombre }}</p>
+                </div>
+            </div>
+
+            <nav class="nav" aria-label="Principal">
+                {% for href, label, icon in [
+                    ("/tutoria", "Tutoría", "tutoria"),
+                    ("/lectura", "Leer un libro", "libro"),
+                    ("/tutor", "Cuentos", "cuentos"),
+                    ("/escuela", "Base de la escuela", "escuela"),
+                    ("/", "Extraer texto", "extraer"),
+                ] %}
+                <a href="{{ href }}" data-label="{{ label }}"
+                   class="nav-link{% if request.url.path == href %} active{% endif %}"
+                   {% if request.url.path == href %}aria-current="page"{% endif %}>
+                    {{ nav_icon(icon) }}<span class="nav-label">{{ label }}</span>
+                </a>
+                {% endfor %}
+            </nav>
+
+            <div class="sidebar-foot">
+                <p class="sidebar-note">Lectura guiada con IA y OCR</p>
+                <a class="nav-link" href="https://vt-tutor-lectura-conocenos.web.app/"
+                   target="_blank" rel="noopener noreferrer" data-label="Conócenos">
+                    {{ nav_icon("conocenos") }}<span class="nav-label">Conócenos {{ nav_icon("externo") }}<span class="sr-only">(se abre en una pestaña nueva)</span></span>
+                </a>
+                <button class="theme-toggle nav-link" id="theme-toggle" type="button" aria-pressed="false" data-label="Modo oscuro">
+                    <span class="theme-icon theme-icon-moon">{{ nav_icon("luna") }}</span>
+                    <span class="theme-icon theme-icon-sun">{{ nav_icon("sol") }}</span>
+                    <span class="nav-label">Modo oscuro</span>
+                </button>
+                <button class="sidebar-toggle nav-link" id="sidebar-toggle" type="button"
+                        aria-controls="sidebar" aria-expanded="true" data-label="Mostrar menú">
+                    {{ nav_icon("panel") }}<span class="nav-label">Ocultar menú</span>
+                </button>
+            </div>
+        </aside>
+
+        <div class="scrim" id="scrim" hidden></div>
+
+        <div class="main-wrap">
+            <header class="topbar">
+                <button class="menu-btn" id="menu-btn" type="button" aria-label="Abrir menú" aria-controls="sidebar" aria-expanded="false">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/>
+                    </svg>
+                </button>
+                <span class="topbar-title">{{ escuela_nombre }}</span>
+            </header>
+
+            <main class="content">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+    <dialog class="terms" id="terms" aria-labelledby="terms-title" aria-describedby="terms-text">
+        <div class="terms-step" id="terms-ask">
+            <span class="terms-icon" aria-hidden="true">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 3h7l5 5v11.5A1.5 1.5 0 0 1 17.5 21h-10A1.5 1.5 0 0 1 6 19.5v-15A1.5 1.5 0 0 1 7 3z"/>
+                    <path d="M14 3v5h5"/>
+                    <path d="M9.5 14.5l2 2 3.5-4"/>
+                </svg>
+            </span>
+            <h2 id="terms-title">Términos y condiciones</h2>
+            <div id="terms-text" class="terms-text">
+                <p>Antes de usar {{ app_nombre }}, lee y acepta los términos y condiciones.</p>
+                <p>Si eres menor de edad, pide a un adulto que los lea contigo.</p>
+            </div>
+            <a class="terms-link" href="https://vt-terminos-app-tutor.web.app/" target="_blank" rel="noopener noreferrer">
+                Leer los términos y condiciones
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>
+                </svg>
+                <span class="sr-only">(se abre en una pestaña nueva)</span>
+            </a>
+            <div class="terms-actions">
+                <button class="btn btn-secondary" id="terms-reject" type="button">No acepto</button>
+                <button class="btn btn-primary" id="terms-accept" type="button">Acepto</button>
+            </div>
+        </div>
+
+        <div class="terms-step" id="terms-rejected" hidden>
+            <h2>No puedes usar la app sin aceptar</h2>
+            <p class="terms-text">Para usar {{ app_nombre }} es necesario aceptar los términos y condiciones. Puedes leerlos con calma y volver cuando quieras.</p>
+            <div class="terms-actions">
+                <button class="btn btn-primary" id="terms-review" type="button">Volver a revisar</button>
+            </div>
+        </div>
+    </dialog>
+
+    <button class="to-top animate-pop-in" id="to-top" type="button" aria-label="Volver arriba" title="Volver arriba" hidden>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 19V6"/>
+            <path d="M6 11.5L12 5.5l6 6"/>
+        </svg>
+    </button>
+
+    <script src="{{ static_url('js/main.js') }}"></script>
+    <script src="{{ static_url('js/upload.js') }}"></script>
+</body>
+</html>

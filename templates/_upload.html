@@ -1,0 +1,45 @@
+{# Zona para subir un archivo, con iconos propios y arrastrar y soltar. La lógica está en static/js/upload.js. #}
+{% macro file_drop(accept, hint) %}
+<div class="file-drop" data-file-drop>
+    <input id="file" name="file" type="file" accept="{{ accept }}" required class="peer sr-only">
+    <label for="file" data-drop-zone
+        class="group flex cursor-pointer flex-col items-center gap-2 rounded-[18px] border-2 border-dashed border-mint-300 bg-mint-50 px-4 py-8 text-center transition-all duration-200 hover:border-mint-500 hover:bg-mint-100 peer-focus-visible:ring-4 peer-focus-visible:ring-mint-200">
+        <svg class="h-24 w-24 transition-transform duration-300 group-hover:-translate-y-1" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+            <rect x="18" y="18" width="44" height="58" rx="8" transform="rotate(-10 40 47)" fill="#cfeedb"/>
+            <rect x="28" y="12" width="44" height="58" rx="8" fill="#ffffff" stroke="#8fd6ad" stroke-width="3"/>
+            <path d="M38 27h24M38 36h24M38 45h14" stroke="#a9e0c0" stroke-width="3" stroke-linecap="round"/>
+            <path d="M23 66l3-3 3 3-3 3z" fill="#74c896"/>
+            <path d="M80 22l2-2 2 2-2 2z" fill="#74c896"/>
+            <g class="origin-center animate-nudge">
+                <circle cx="68" cy="66" r="16" fill="#74c896"/>
+                <path d="M68 74V58m-7 7 7-7 7 7" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+        </svg>
+        <span class="text-base font-semibold text-mint-900">Arrastra tu archivo aquí</span>
+        <span class="text-sm text-ink-soft">o <span class="font-semibold text-mint-700 underline decoration-mint-300 decoration-2 underline-offset-4">búscalo en tu equipo</span></span>
+        <span class="mt-1 flex flex-wrap justify-center gap-1.5" aria-hidden="true">
+            <span class="rounded-full bg-surface px-2.5 py-0.5 text-xs font-semibold text-[#d64045] dark:text-[#f2898c] ring-1 ring-mint-200">PDF</span>
+            <span class="rounded-full bg-surface px-2.5 py-0.5 text-xs font-semibold text-[#2f9e6a] dark:text-[#7bd6a6] ring-1 ring-mint-200">Imagen</span>
+            <span class="rounded-full bg-surface px-2.5 py-0.5 text-xs font-semibold text-[#2b6cb0] dark:text-[#8db8ee] ring-1 ring-mint-200">Word</span>
+            <span class="rounded-full bg-surface px-2.5 py-0.5 text-xs font-semibold text-[#dd6b20] dark:text-[#f2a86c] ring-1 ring-mint-200">PowerPoint</span>
+            <span class="rounded-full bg-surface px-2.5 py-0.5 text-xs font-semibold text-ink-soft ring-1 ring-mint-200">Texto</span>
+        </span>
+        {% if hint %}<span class="text-xs text-ink-soft">{{ hint }}</span>{% endif %}
+    </label>
+
+    <div data-file-chosen hidden
+        class="mt-3 flex animate-pop-in items-center gap-3 rounded-[14px] border border-mint-200 bg-surface p-3 shadow-sm">
+        <span data-file-icon class="shrink-0"></span>
+        <div class="min-w-0 flex-1">
+            <p data-file-name class="m-0 truncate font-semibold text-ink"></p>
+            <p data-file-size class="m-0 text-xs text-ink-soft"></p>
+        </div>
+        <button type="button" data-file-clear aria-label="Quitar archivo"
+            class="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-0 bg-mint-100 text-mint-900 transition-colors hover:bg-mint-200">
+            <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+    </div>
+</div>
+{% endmacro %}

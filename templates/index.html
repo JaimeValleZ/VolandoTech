@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from "_upload.html" import file_drop %}
+
+{% block content %}
+<div class="card">
+    <h2>Subir archivo</h2>
+    <p class="info">Soporta PDF, imágenes (JPG, PNG, WebP, BMP, TIFF), TXT, MD, DOCX, PPTX. Procesamiento página por página.</p>
+
+    {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+
+    <form action="/upload" method="post" enctype="multipart/form-data" class="upload-form">
+        <div class="form-group">
+            {{ file_drop(".pdf,.jpg,.jpeg,.png,.webp,.bmp,.tiff,.tif,.txt,.md,.docx,.pptx", "") }}
+        </div>
+        <button type="submit" class="btn btn-primary">Extraer texto</button>
+    </form>
+</div>
+{% endblock %}

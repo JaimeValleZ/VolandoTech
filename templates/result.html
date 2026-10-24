@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="result-header">
+        <h2>Resultado de extracción</h2>
+        <a href="/" class="btn btn-secondary">Volver a subir</a>
+    </div>
+    
+    <div class="metadata">
+        <div class="meta-item">
+            <strong>Archivo:</strong> {{ result.filename }}
+        </div>
+        <div class="meta-item">
+            <strong>Páginas:</strong> {{ result.total_pages }}
+        </div>
+        <div class="meta-item">
+            <strong>Caracteres:</strong> {{ result.char_count }}
+        </div>
+        <div class="meta-item">
+            <strong>Tiempo:</strong> {{ result.elapsed_ms }}ms
+        </div>
+        {% if result.used_ocr %}
+        <div class="meta-item badge-ocr">OCR utilizado</div>
+        {% endif %}
+    </div>
+    
+    {% if result.warnings %}
+    <div class="alert alert-warning">
+        <strong>Avisos:</strong>
+        <ul>
+            {% for w in result.warnings %}
+            <li>{{ w }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    
+    <div class="text-section">
+        <div class="section-header">
+            <h3>Texto extraído (completo)</h3>
+            <button onclick="copiarTexto()" class="btn btn-small">Copiar texto</button>
+        </div>
+        <textarea id="full-text" readonly>{{ result.full_text }}</textarea>
+    </div>
+    
+    <div class="pages-section">
+        <h3>Detalle por página</h3>
+        {% for page in result.pages %}
+        <div class="page-card">
+            <div class="page-header">
+                <strong>Página {{ page.page_number }}</strong>
+                <span class="method-badge method-{{ page.method }}">{{ page.method }}</span>
+            </div>
+            <pre class="page-text">{{ page.text }}</pre>
+            {% if page.warnings %}
+            <div class="page-warnings">
+                {% for w in page.warnings %}• {{ w }}{% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function copiarTexto() {
+    const textarea = document.getElementById('full-text');
+    textarea.select();
+    document.execCommand('copy');
+    alert('Texto copiado al portapapeles');
+}
+</script>
+{% endblock %}

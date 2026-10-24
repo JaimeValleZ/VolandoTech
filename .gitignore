@@ -1,0 +1,18 @@
+# Secretos: la clave de la IA y el PIN de la escuela
+.env
+
+# Entornos y dependencias
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+
+# Datos locales: base de datos con materiales y estudiantes, archivos temporales
+data/
+*.sqlite3
+
+# Editor y sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

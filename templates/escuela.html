@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% from "_upload.html" import file_drop %}
+
+{% block content %}
+<section class="card">
+    <h2>Base de conocimientos de la escuela</h2>
+    <p class="info">
+        Sube cuentos, libros y materiales. La app extrae el texto con OCR y lo guarda para preparar las tutorías.
+        El archivo original se borra después de extraer el texto. Formatos: {{ allowed }}.
+    </p>
+
+    {% if not pin_configured %}
+    <div class="alert alert-warning">Configura <strong>ESCUELA_PIN</strong> en el archivo .env para poder subir o borrar material.</div>
+    {% endif %}
+    {% if message %}<div class="alert alert-success">{{ message }}</div>{% endif %}
+    {% if error %}<div class="alert alert-error">{{ error }}</div>{% endif %}
+
+    <form id="upload-form-ref" action="/escuela/subir" method="post" enctype="multipart/form-data" class="upload-form">
+        <div class="form-group">
+            <label for="pin">PIN de la escuela</label>
+            <input id="pin" name="pin" type="password" required autocomplete="off">
+        </div>
+        <div class="form-group">
+            <label for="title">Título (opcional)</label>
+            <input id="title" name="title" maxlength="120" placeholder="Por ejemplo: Cuento de la rana">
+        </div>
+        <div class="form-group">
+            <span class="text-[0.9rem] text-ink-soft">Archivo</span>
+            {{ file_drop(".pdf,.jpg,.jpeg,.png,.webp,.bmp,.tiff,.tif,.txt,.md,.docx,.pptx", "Puedes subir una foto de las páginas de un libro impreso.") }}
+        </div>
+        <button type="submit" class="btn btn-primary">Subir y guardar</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Materiales guardados ({{ documents|length }})</h2>
+    {% if documents %}
+    <div class="table-wrap">
+        <table class="docs">
+            <thead>
+                <tr><th>Título</th><th>Archivo</th><th>Páginas</th><th>Fragmentos</th><th>Fecha</th><th></th></tr>
+            </thead>
+            <tbody>
+                {% for d in documents %}
+                <tr>
+                    <td>{{ d.title }}</td>
+                    <td>{{ d.filename }}</td>
+                    <td>{{ d.pages }}</td>
+                    <td>{{ d.chunk_count }}</td>
+                    <td>{{ d.created_at }}</td>
+                    <td>
+                        <button type="submit" form="upload-form-ref" class="btn btn-small"
+                            formaction="/escuela/borrar/{{ d.id }}" formnovalidate>Borrar</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="info">Todavía no hay materiales. Sube el primero arriba.</p>
+    {% endif %}
+</section>
+{% endblock %}

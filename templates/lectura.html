@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ static_url('css/tutor.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="card tutor">
+    <h2>Leer un libro de la escuela</h2>
+    <p class="info">Elige un libro de la base de la escuela. El tutor te lo cuenta por partes, a tu nivel, y al final de cada parte te hace unas preguntas.</p>
+    <div id="error" class="alert alert-error" role="alert" hidden></div>
+    <div id="no-books" class="alert alert-warning" hidden>
+        La escuela todavía no tiene libros. Pide a tu docente que suba uno en <a href="/escuela">Base de la escuela</a>.
+    </div>
+
+    <form id="start-form" class="tutor-form" hidden>
+        <label class="field">
+            <span>¿Cómo te llamas? (puedes usar un apodo)</span>
+            <input id="nickname" maxlength="30" required>
+        </label>
+        <label class="field">
+            <span>Tu edad</span>
+            <select id="age">
+                {% for a in range(5, 11) %}
+                <option value="{{ a }}" {% if a == 7 %}selected{% endif %}>{{ a }} años</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label class="field field-wide">
+            <span>¿Qué libro quieres leer?</span>
+            <select id="book-select" required></select>
+        </label>
+        <button class="btn btn-primary big" type="submit">Empezar a leer</button>
+    </form>
+
+    <section id="book" hidden>
+        <div class="story-header">
+            <h3 id="book-title"></h3>
+            <span id="book-progress" class="badge"></span>
+        </div>
+        <div class="progress-track" aria-hidden="true"><div id="progress-fill" class="progress-fill"></div></div>
+        <ol id="parts" class="parts"></ol>
+    </section>
+
+    <p id="loading" class="loading" hidden>Preparando esta parte del libro para ti…</p>
+
+    <article id="story" hidden>
+        <p id="part-label" class="progress"></p>
+        <div class="story-header">
+            <h3 id="story-title"></h3>
+            <button id="listen" class="btn btn-small" type="button" hidden>🔊 Escuchar</button>
+        </div>
+        <div id="story-text" class="story-text"></div>
+    </article>
+
+    <section id="quiz" hidden>
+        <p id="progress" class="progress"></p>
+        <div class="question-row">
+            <h3 id="question"></h3>
+            <button id="listen-question" class="btn btn-small" type="button" hidden>🔊 Escuchar pregunta</button>
+        </div>
+        <form id="answer-form" class="tutor-form">
+            <input id="answer" maxlength="300" placeholder="Escribe tu respuesta" autocomplete="off" required>
+            <button class="btn btn-primary" type="submit">Responder</button>
+        </form>
+        <p id="feedback" class="feedback" hidden></p>
+        <p id="hint" class="hint" hidden></p>
+        <p id="explanation" class="explanation" hidden></p>
+        <button id="next" class="btn btn-secondary big" type="button" hidden>Siguiente pregunta</button>
+    </section>
+
+    <div id="part-done" class="part-done" hidden>
+        <p id="part-done-text" class="done"></p>
+        <div class="part-actions">
+            <button id="next-part" class="btn btn-primary big" type="button">Leer la siguiente parte</button>
+            <button id="back" class="btn btn-secondary big" type="button">Ver todas las partes</button>
+        </div>
+    </div>
+
+    <p class="restart"><button id="restart" class="btn btn-small" type="button">Elegir otro libro</button></p>
+</section>
+
+<script src="{{ static_url('js/lectura.js') }}"></script>
+{% endblock %}
