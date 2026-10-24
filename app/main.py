@@ -9,6 +9,7 @@ from app.core.templating import templates
 from app.services.extraction_service import ExtractionService
 from app.utils.filetype import is_allowed_file
 from app.data.db import init_db
+from app.kb.service import add_examples_if_empty
 from app.kb.routes import router as kb_router
 from app.lectura.routes import router as lectura_router
 from app.voz.routes import router as voz_router
@@ -26,6 +27,8 @@ app.include_router(lectura_router)
 app.include_router(voz_router)
 app.include_router(kb_router)
 init_db()
+if add_examples_if_empty():
+    logger.info("Base vacía: se cargaron los libros de ejemplo")
 
 
 @app.get("/", response_class=HTMLResponse)

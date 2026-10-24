@@ -1,5 +1,6 @@
 import re
 import unicodedata
+from pathlib import Path
 
 from app.data.db import connect
 
@@ -59,6 +60,26 @@ def add_document(title: str, filename: str, text: str, pages: int) -> int:
             [(document_id, i, chunk) for i, chunk in enumerate(chunks)],
         )
     return document_id
+
+
+# Libros de ejemplo que trae la app: se cargan cuando la base está vacía (por ejemplo, en cada
+# despliegue nuevo en Render). Texto de la Biblioteca Digital del ILCE, con su aviso de uso al final.
+EXAMPLES_DIR = Path(__file__).parent / "ejemplos"
+EXAMPLES = [
+    {"title": "La bella y la bestia", "filename": "LABELLAYLABESTIA.pdf", "pages": 31,
+     "file": "la_bella_y_la_bestia.txt"},
+]
+
+
+def add_examples_if_empty() -> int:
+    """Agrega los libros de ejemplo si todavía no hay ningún material. Devuelve cuántos agregó."""
+    with connect() as conn:
+        if conn.execute("SELECT 1 FROM documents LIMIT 1").fetchone():
+            return 0
+    for book in EXAMPLES:
+        text = (EXAMPLES_DIR / book["file"]).read_text(encoding="utf-8")
+        add_document(book["title"], book["filename"], text, book["pages"])
+    return len(EXAMPLES)
 
 
 def list_documents() -> list:

@@ -27,7 +27,7 @@ window.leerEnVoz = async function (texto) {
 
 // Efecto plop: el elemento se aplasta y rebota al tocarlo (la animación está en tailwind.src.css).
 (function () {
-    const INTERACTIVOS = "button, .btn, .nav-link, .part-btn, .feature-card, [data-drop-zone], select, summary";
+    const INTERACTIVOS = "button, .btn, .nav-link, .part-btn, .feature-card, [data-drop-zone], summary";
 
     document.addEventListener("click", (event) => {
         const el = event.target.closest(INTERACTIVOS);
@@ -41,22 +41,12 @@ window.leerEnVoz = async function (texto) {
     });
 })();
 
-// Modo claro / oscuro. El tema inicial lo pone el script del <head> (base.html) antes de pintar.
+// Modo claro / oscuro. Empieza en claro; el script del <head> (base.html) aplica la elección guardada antes de pintar.
 (function () {
     const button = document.getElementById("theme-toggle");
     if (!button) return;
     const root = document.documentElement;
     const label = button.querySelector(".nav-label");
-    const sistema = window.matchMedia("(prefers-color-scheme: dark)");
-
-    function guardado() {
-        try {
-            return localStorage.getItem("tema");
-        } catch (e) {
-            return null;
-        }
-    }
-
     function aplicar(tema, animar) {
         if (animar) {
             root.classList.add("theme-changing");
@@ -77,11 +67,6 @@ window.leerEnVoz = async function (texto) {
             localStorage.setItem("tema", tema);
         } catch (e) {}
         aplicar(tema, true);
-    });
-
-    // Mientras el usuario no elija, la app sigue los cambios de tema del sistema.
-    sistema.addEventListener("change", (event) => {
-        if (!guardado()) aplicar(event.matches ? "dark" : "light", true);
     });
 
     aplicar(root.getAttribute("data-theme") || "light", false);

@@ -46,7 +46,7 @@ El repositorio incluye [render.yaml](render.yaml), que configura el servicio, y 
 4. Espera a que termine el despliegue (instala dependencias y descarga los modelos de OCR) y abre la dirección `https://….onrender.com`.
 
 **Importante sobre el plan gratuito:**
-- **Los datos no se conservan.** Los materiales de la escuela, los estudiantes y las partes de libros generadas se borran en cada despliegue o reinicio. Para conservarlos hace falta un plan de pago con disco; las instrucciones están comentadas al final de `render.yaml`.
+- **Los datos no se conservan.** Los materiales de la escuela, los estudiantes y las partes de libros generadas se borran en cada despliegue o reinicio. Al arrancar con la base vacía, la app carga sola el libro de ejemplo *La bella y la bestia* (`app/kb/ejemplos/`), así siempre hay algo para probar. Para conservarlos hace falta un plan de pago con disco; las instrucciones están comentadas al final de `render.yaml`.
 - **El servicio se duerme** tras 15 minutos sin visitas. La primera visita después tarda alrededor de un minuto en responder.
 
 ## Estilos con Tailwind
