@@ -47,7 +47,8 @@ El repositorio incluye [render.yaml](render.yaml), que configura el servicio, y 
 
 **Importante sobre el plan gratuito:**
 - **Los datos no se conservan.** Los materiales de la escuela, los estudiantes y las partes de libros generadas se borran en cada despliegue o reinicio. Al arrancar con la base vacía, la app carga sola el libro de ejemplo *La bella y la bestia* (`app/kb/ejemplos/`), así siempre hay algo para probar. Para conservarlos hace falta un plan de pago con disco; las instrucciones están comentadas al final de `render.yaml`.
-- **El servicio se duerme** tras 15 minutos sin visitas. La primera visita después tarda alrededor de un minuto en responder.
+- **El servicio se duerme** tras 15 minutos sin visitas, y la primera visita después tarda alrededor de un minuto. Para evitarlo, el repositorio trae [.github/workflows/mantener-activo.yml](.github/workflows/mantener-activo.yml), que visita `/health` cada 10 minutos. Para activarlo, en GitHub: **Settings → Secrets and variables → Actions → Variables → New repository variable**, con nombre `RENDER_URL` y la dirección de la app (por ejemplo `https://tutor-lectura.onrender.com`). Los horarios de GitHub pueden atrasarse unos minutos, así que algún despertar lento todavía puede pasar; un plan de pago de Render no se duerme nunca.
+- **PIN de demostración:** la página de la escuela muestra la nota «Poner pin de escuela 001». Para que coincida, en Render `ESCUELA_PIN` debe ser `001`. Cualquiera que vea la nota puede subir o borrar material.
 
 ## Estilos con Tailwind
 Las clases de Tailwind se compilan a `static/css/tailwind.css`, que ya viene generado: para usar la app no hace falta Node. Solo si cambias clases en `templates/` o `static/js/`, vuelve a compilar:

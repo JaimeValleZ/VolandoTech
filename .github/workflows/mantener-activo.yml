@@ -1,0 +1,26 @@
+# Visita la app en Render cada 10 minutos para que el plan gratuito no la duerma
+# (Render la duerme tras 15 minutos sin visitas).
+# Requiere la variable del repositorio RENDER_URL, por ejemplo https://tutor-lectura.onrender.com
+# (Settings → Secrets and variables → Actions → Variables).
+name: Mantener activa la app
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  visitar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Visitar /health
+        env:
+          RENDER_URL: ${{ vars.RENDER_URL }}
+        run: |
+          if [ -z "$RENDER_URL" ]; then
+            echo "::warning::Falta la variable RENDER_URL en el repositorio; no se visita la app."
+            exit 0
+          fi
+          # Si la app estaba dormida, despertar tarda hasta un minuto: se espera y se reintenta.
+          curl --fail --silent --show-error --retry 3 --retry-delay 10 --max-time 90 "${RENDER_URL%/}/health"

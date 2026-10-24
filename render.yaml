@@ -8,7 +8,7 @@ services:
     # Descarga los modelos de OCR durante la construcción, no en cada arranque.
     buildCommand: pip install -r requirements.txt && python -c "from app.extractors.ocr import ocr_engine"
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /
+    healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.10

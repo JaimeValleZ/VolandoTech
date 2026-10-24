@@ -18,7 +18,13 @@
     <form id="upload-form-ref" action="/escuela/subir" method="post" enctype="multipart/form-data" class="upload-form">
         <div class="form-group">
             <label for="pin">PIN de la escuela</label>
-            <input id="pin" name="pin" type="password" required autocomplete="off">
+            <input id="pin" name="pin" type="password" required autocomplete="off" aria-describedby="pin-hint">
+            <p id="pin-hint" class="pin-hint">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.5v.01"/>
+                </svg>
+                Poner pin de escuela <strong>001</strong>
+            </p>
         </div>
         <div class="form-group">
             <label for="title">Título (opcional)</label>

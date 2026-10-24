@@ -31,6 +31,12 @@ if add_examples_if_empty():
     logger.info("Base vacía: se cargaron los libros de ejemplo")
 
 
+@app.get("/health")
+async def health():
+    """Respuesta liviana para el chequeo de Render y para mantener el servicio despierto."""
+    return {"ok": True}
+
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse(request, "home.html")

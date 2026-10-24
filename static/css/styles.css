@@ -1356,3 +1356,20 @@ table.docs tr:last-child td {
         transition: none;
     }
 }
+
+/* Nota bajo el campo del PIN en la base de la escuela. */
+.pin-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    align-self: flex-start;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    background: var(--info-bg);
+    color: var(--info-ink);
+    font-size: 0.85rem;
+}
+
+.pin-hint strong {
+    letter-spacing: 0.08em;
+}
