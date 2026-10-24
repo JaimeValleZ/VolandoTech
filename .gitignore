@@ -7,8 +7,9 @@ node_modules/
 __pycache__/
 *.pyc
 
-# Datos locales: base de datos con materiales y estudiantes, archivos temporales
-data/
+# Datos locales: base de datos con materiales y estudiantes, archivos temporales.
+# Con "/" al inicio solo es la carpeta data de la raíz, no app/data (que es código).
+/data/
 *.sqlite3
 
 # Editor y sistema
