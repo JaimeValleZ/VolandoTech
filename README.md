@@ -37,7 +37,7 @@ En local van en `.env`; en Render, en las variables de entorno del servicio. **N
 Sin `NVIDIA_API_KEY`, la sección de cuentos usa cuentos guardados y la tutoría no se puede preparar.
 
 ## Publicar en Render
-El repositorio incluye [render.yaml](render.yaml), que configura el servicio.
+El repositorio incluye [render.yaml](render.yaml), que configura el servicio, y `.python-version`, que fija Python 3.12 (con la versión por defecto de Render, 3.14, algunas dependencias no se instalan).
 
 1. Sube el proyecto a un repositorio de GitHub (el `.gitignore` deja fuera `.env`, `.venv`, `node_modules` y `data/`).
 2. En Render: **New → Blueprint**, elige el repositorio y confirma.
