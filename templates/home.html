@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% from "_icons.html" import nav_icon %}
+
+{% block content %}
+<section class="card home-hero">
+    <div class="flex flex-col-reverse items-center gap-6 sm:flex-row sm:items-center">
+        <div class="min-w-0 flex-1 text-center sm:text-left">
+            <span class="badge">Para niños de 5 a 10 años</span>
+            <h1 class="mt-3 text-3xl leading-tight sm:text-4xl">{{ app_nombre }}</h1>
+            <p class="mt-2 text-lg font-medium text-mint-700">Lecturas a la medida de cada niño, con los libros de su escuela.</p>
+            <p class="info mt-3">
+                Un tutor con inteligencia artificial que adapta cuentos y libros a la edad y los gustos de cada niño.
+                Lo acompaña con preguntas de comprensión y, cuando se equivoca, le da pistas en lugar de la respuesta,
+                para que aprenda a encontrarla en el texto.
+            </p>
+            <div class="mt-5 flex flex-wrap justify-center gap-3 sm:justify-start">
+                <a href="/tutoria" class="btn btn-primary big">Empezar una tutoría</a>
+                <a href="/lectura" class="btn btn-secondary big">Leer un libro</a>
+                <button id="tour-start" class="btn btn-game big" type="button">
+                    {{ nav_icon("mando") }}<span>Ver tutorial</span>
+                </button>
+            </div>
+        </div>
+
+        {# Libro abierto con estrellas; los colores siguen el tema claro u oscuro. #}
+        <svg class="h-40 w-40 shrink-0 sm:h-48 sm:w-48" viewBox="0 0 160 160" fill="none" aria-hidden="true">
+            <circle cx="80" cy="80" r="74" class="fill-mint-100"/>
+            <path d="M80 52c-12-9-30-12-50-11v66c20-1 38 2 50 11z" class="fill-surface stroke-mint-500" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M80 52c12-9 30-12 50-11v66c-20-1-38 2-50 11z" class="fill-surface stroke-mint-500" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M80 52v66" class="stroke-mint-500" stroke-width="4"/>
+            <path d="M42 60c9 0 18 2 26 6M42 72c9 0 18 2 26 6M42 84c9 0 18 2 26 6M92 66c8-4 17-6 26-6M92 78c8-4 17-6 26-6"
+                  class="stroke-mint-300" stroke-width="3.5" stroke-linecap="round"/>
+            <g class="origin-center animate-nudge fill-mint-500">
+                <path d="M118 22l3.5 7 7.5 1-5.5 5.3 1.3 7.7-6.8-3.6-6.8 3.6 1.3-7.7-5.5-5.3 7.5-1z"/>
+                <path d="M36 26l2 4 4.4.6-3.2 3 .8 4.4-4-2.1-4 2.1.8-4.4-3.2-3 4.4-.6z"/>
+            </g>
+            <circle cx="136" cy="112" r="4" class="fill-mint-300"/>
+            <circle cx="24" cy="104" r="3" class="fill-mint-300"/>
+        </svg>
+    </div>
+</section>
+
+<section aria-labelledby="home-features">
+    <h2 id="home-features" class="mb-3 mt-2">¿Qué puedes hacer?</h2>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {% for href, icon, title, text, audience in [
+            ("/tutoria", "tutoria", "Tutoría personalizada", "El tutor te pregunta qué te gusta y prepara una lectura hecha para ti, con preguntas y pistas.", "Para niños"),
+            ("/lectura", "libro", "Leer un libro", "Lee los libros de tu escuela por capítulos, contados a tu nivel. Avanzas parte por parte.", "Para niños"),
+            ("/tutor", "cuentos", "Cuentos", "Cuentos cortos sobre el tema que elijas, para practicar la lectura.", "Para niños"),
+            ("/escuela", "escuela", "Base de la escuela", "Sube cuentos y libros en PDF, fotos o Word. La app extrae el texto y lo usa en las lecturas.", "Para docentes"),
+            ("/extraer", "extraer", "Extraer texto", "Convierte un documento o la foto de una página en texto que puedes copiar.", "Para docentes"),
+        ] %}
+        <a href="{{ href }}" class="feature-card group">
+            <span class="flex items-start justify-between gap-3">
+                <span class="feature-icon">{{ nav_icon(icon) }}</span>
+                <span class="feature-tag{% if audience == 'Para docentes' %} feature-tag-teacher{% endif %}">{{ audience }}</span>
+            </span>
+            <span class="mt-3 block text-lg font-semibold text-ink">{{ title }}</span>
+            <span class="mt-1 block text-[0.95rem] leading-relaxed text-ink-soft">{{ text }}</span>
+            <span class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-mint-700">
+                Ir <span class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
+            </span>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="card mt-6" aria-labelledby="home-how">
+    <h2 id="home-how">Así ayuda a leer mejor</h2>
+    <ul class="mt-4 grid list-none gap-4 p-0 sm:grid-cols-2">
+        {% for title, text in [
+            ("Texto a su nivel", "Las oraciones se ajustan a la edad del niño y la app lo comprueba antes de mostrarlo."),
+            ("Preguntas que hacen pensar", "En cada lectura: una pregunta literal, una de inferencia y una de vocabulario."),
+            ("Pistas, no respuestas", "Si se equivoca, recibe una pista y vuelve al texto. Al final, siempre una explicación."),
+            ("Escucha en voz alta", "Cada texto y cada pregunta se pueden escuchar con una voz en español."),
+        ] %}
+        <li class="flex gap-3">
+            <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-mint-200 text-sm font-bold text-mint-900" aria-hidden="true">{{ loop.index }}</span>
+            <span>
+                <span class="block font-semibold text-ink">{{ title }}</span>
+                <span class="block text-[0.95rem] text-ink-soft">{{ text }}</span>
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+
+<script src="{{ static_url('js/tour.js') }}"></script>
+{% endblock %}

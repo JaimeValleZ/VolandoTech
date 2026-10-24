@@ -27,7 +27,7 @@ window.leerEnVoz = async function (texto) {
 
 // Efecto plop: el elemento se aplasta y rebota al tocarlo (la animación está en tailwind.src.css).
 (function () {
-    const INTERACTIVOS = "button, .btn, .nav-link, .part-btn, [data-drop-zone], select, summary";
+    const INTERACTIVOS = "button, .btn, .nav-link, .part-btn, .feature-card, [data-drop-zone], select, summary";
 
     document.addEventListener("click", (event) => {
         const el = event.target.closest(INTERACTIVOS);

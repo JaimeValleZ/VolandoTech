@@ -5,11 +5,12 @@ Aplicación web para niños de 5 a 10 años en Latinoamérica. Una escuela sube 
 Para la presentación del proyecto, ver [PITCH.md](PITCH.md). Para usarla paso a paso, ver [GUIA_DE_USO.md](GUIA_DE_USO.md).
 
 ## Páginas
+- **/**: inicio, con el resumen de la app y accesos a cada sección.
 - **/tutoria**: el tutor pregunta al niño qué le gusta, qué se le facilita y qué se le dificulta, y prepara una lectura con preguntas.
 - **/lectura**: lee un libro de la escuela por capítulos o partes, adaptado a la edad del niño.
 - **/tutor**: cuentos de práctica por edad y tema.
 - **/escuela**: sube materiales (PDF, imágenes, DOCX, PPTX, TXT, MD). Se extrae el texto, se guarda en la base y el archivo original se borra. Requiere el PIN de la escuela.
-- **/**: extrae el texto de un archivo sin guardarlo.
+- **/extraer**: extrae el texto de un archivo sin guardarlo.
 
 ## Ejecutar en local
 Requiere Python 3.12.

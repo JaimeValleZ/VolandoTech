@@ -19,14 +19,20 @@ Revisa esto primero, con un adulto responsable:
 
 ## 2. Barra lateral
 
-A la izquierda está el menú con cuatro secciones:
+A la izquierda está el menú. Al entrar a la app se abre **Inicio**, con un resumen y accesos a cada sección.
+
+En **Inicio**, el botón **Ver tutorial** muestra en 7 pasos cortos para qué sirve cada sección. Se puede salir en cualquier momento con **Salir** o la tecla Escape.
 
 | Sección | Para qué sirve | Quién la usa |
 |---|---|---|
+| **Inicio** | Resumen de la app y accesos rápidos | Cualquiera |
 | **Tutoría** | El niño conversa con el tutor y recibe una lectura personalizada | Niños |
+| **Leer un libro** | Leer un libro de la escuela por capítulos o partes, adaptado a su edad | Niños |
 | **Cuentos** | Cuentos de práctica por edad, sin entrevista | Niños o docentes |
 | **Base de la escuela** | Subir libros y cuentos de la escuela | Docentes |
 | **Extraer texto** | Sacar el texto de un archivo, sin guardarlo | Cualquiera |
+
+Abajo del menú están **Conócenos** (abre la página del equipo en otra pestaña), **Modo oscuro / Modo claro** y **Ocultar menú**, que deja solo los iconos.
 
 En celular, el menú está oculto. Toca el botón **☰** de arriba para abrirlo. Se cierra al tocar fuera, al elegir una sección, o con la tecla Escape.
 

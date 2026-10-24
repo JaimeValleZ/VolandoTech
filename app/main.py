@@ -29,20 +29,25 @@ init_db()
 
 
 @app.get("/", response_class=HTMLResponse)
-async def index(request: Request):
-    return templates.TemplateResponse(request, "index.html")
+async def home(request: Request):
+    return templates.TemplateResponse(request, "home.html")
+
+
+@app.get("/extraer", response_class=HTMLResponse)
+async def extraer(request: Request):
+    return templates.TemplateResponse(request, "extraer.html")
 
 
 @app.post("/upload", response_class=HTMLResponse)
 async def upload_file(request: Request, file: UploadFile = File(...)):
     try:
         if not file.filename:
-            return templates.TemplateResponse(request, "index.html", {
+            return templates.TemplateResponse(request, "extraer.html", {
                 "error": "No se seleccionó ningún archivo"
             })
         
         if not is_allowed_file(file.filename):
-            return templates.TemplateResponse(request, "index.html", {
+            return templates.TemplateResponse(request, "extraer.html", {
                 "error": f"Formato no soportado. Extensiones permitidas: {', '.join(sorted(ALLOWED_EXTENSIONS))}"
             })
         
@@ -65,6 +70,6 @@ async def upload_file(request: Request, file: UploadFile = File(...)):
         
     except Exception as e:
         logger.error(f"Error: {str(e)}")
-        return templates.TemplateResponse(request, "index.html", {
+        return templates.TemplateResponse(request, "extraer.html", {
             "error": f"Error al procesar archivo: {str(e)}"
         })

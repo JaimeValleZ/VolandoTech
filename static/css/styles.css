@@ -504,6 +504,11 @@ h3 {
     transform: scale(0.98);
 }
 
+.btn:focus-visible {
+    outline: 3px solid var(--mint-300);
+    outline-offset: 2px;
+}
+
 .btn:disabled {
     opacity: 0.55;
     cursor: default;
@@ -892,4 +897,299 @@ table.docs tr:last-child td {
 .theme-changing *::before,
 .theme-changing *::after {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, fill 0.3s ease !important;
+}
+
+/* ---------- Página de inicio ---------- */
+
+.home-hero {
+    background: linear-gradient(135deg, var(--mint-50), var(--surface) 60%);
+}
+
+.feature-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1.3rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    color: var(--ink);
+    text-decoration: none;
+    transition: transform 0.15s ease-out, border-color 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--mint-400);
+    box-shadow: 0 10px 24px var(--shadow-accent);
+}
+
+.feature-card:focus-visible {
+    outline: none;
+    border-color: var(--mint-500);
+    box-shadow: 0 0 0 4px var(--mint-200);
+}
+
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-sm);
+    background: var(--mint-100);
+}
+
+.feature-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background: var(--mint-100);
+    color: var(--accent-ink);
+    white-space: nowrap;
+}
+
+.feature-tag-teacher {
+    background: var(--info-bg);
+    color: var(--info-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .feature-card:hover {
+        transform: none;
+    }
+}
+
+/* ---------- Botón y tutorial estilo videojuego (static/js/tour.js) ---------- */
+
+.btn-game {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface);
+    color: var(--accent-ink);
+    border: 2px dashed var(--mint-400);
+}
+
+.btn-game:hover:not(:disabled) {
+    background: var(--mint-50);
+}
+
+/* Capa que bloquea la página mientras el tutorial está abierto. */
+.tour {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+}
+
+/* Foco de luz: un hueco sobre el elemento explicado; la sombra enorme oscurece todo lo demás. */
+.tour-spotlight {
+    position: fixed;
+    border-radius: 999px;
+    box-shadow: 0 0 0 3px var(--mint-400), 0 0 22px 6px var(--mint-400), 0 0 0 9999px rgba(8, 20, 14, 0.62);
+    pointer-events: none;
+    transition: left 0.35s ease, top 0.35s ease, width 0.35s ease, height 0.35s ease;
+    animation: tour-glow 1.6s ease-in-out infinite;
+}
+
+@keyframes tour-glow {
+    50% {
+        box-shadow: 0 0 0 3px var(--mint-500), 0 0 32px 10px var(--mint-500), 0 0 0 9999px rgba(8, 20, 14, 0.62);
+    }
+}
+
+.tour-bubble {
+    position: fixed;
+    width: min(410px, calc(100% - 2rem));
+    padding: 1rem 1.1rem 1.1rem;
+    border: 3px solid var(--mint-400);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 6px 0 var(--mint-300), 0 18px 40px rgba(0, 0, 0, 0.3);
+    transition: left 0.35s ease, top 0.35s ease;
+}
+
+.tour-bubble.is-center {
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%);
+}
+
+/* En el celular la burbuja va abajo, sin tapar el menú que se explica. */
+.tour-bubble.is-docked {
+    left: 1rem !important;
+    right: 1rem;
+    top: auto !important;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    transform: none;
+}
+
+.tour-bubble.is-hop {
+    animation: tour-hop 0.4s ease-out;
+}
+
+.tour-bubble.is-center.is-hop {
+    animation: tour-hop-center 0.4s ease-out;
+}
+
+@keyframes tour-hop {
+    0% { opacity: 0.4; translate: 0 10px; scale: 0.96; }
+    60% { opacity: 1; translate: 0 -4px; scale: 1.02; }
+    100% { translate: 0 0; scale: 1; }
+}
+
+@keyframes tour-hop-center {
+    0% { opacity: 0.4; scale: 0.9; }
+    60% { opacity: 1; scale: 1.04; }
+    100% { scale: 1; }
+}
+
+.tour-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.tour-level {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mint-700);
+}
+
+.tour-exit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--mint-100);
+    color: var(--accent-ink);
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.tour-exit:hover {
+    background: var(--mint-200);
+}
+
+.tour-exit kbd {
+    font-family: inherit;
+    font-size: 0.68rem;
+    padding: 0 0.3rem;
+    border: 1px solid var(--mint-300);
+    border-radius: 4px;
+}
+
+/* Barra de experiencia: avanza con cada nivel. */
+.tour-xp {
+    height: 8px;
+    margin: 0.6rem 0 0.8rem;
+    border-radius: 999px;
+    background: var(--mint-100);
+    overflow: hidden;
+}
+
+.tour-xp-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: repeating-linear-gradient(45deg, var(--mint-500) 0 8px, var(--mint-400) 8px 16px);
+    transition: width 0.4s ease;
+}
+
+.tour-body {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+}
+
+.tour-lumi {
+    flex: 0 0 auto;
+    animation: lumi-bob 1.8s ease-in-out infinite;
+}
+
+@keyframes lumi-bob {
+    50% { transform: translateY(-4px) rotate(-3deg); }
+}
+
+.tour-copy {
+    min-width: 0;
+}
+
+.tour-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.tour-text {
+    margin-top: 0.25rem;
+    min-height: 3.2em;
+    color: var(--ink-soft);
+    line-height: 1.5;
+}
+
+.tour-caret {
+    display: inline-block;
+    width: 0.5em;
+    height: 1em;
+    margin-left: 2px;
+    vertical-align: -0.12em;
+    background: var(--mint-500);
+    animation: tour-caret 0.8s steps(1) infinite;
+}
+
+@keyframes tour-caret {
+    50% { opacity: 0; }
+}
+
+.tour-badge {
+    margin-top: 0.6rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--radius-xs);
+    background: var(--warn-bg);
+    color: var(--warn-ink);
+    font-size: 0.9rem;
+    animation: pop-in 0.45s ease-out both;
+}
+
+.tour-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+}
+
+.tour-actions .tour-back {
+    margin-right: auto;
+}
+
+/* En el celular los botones del tutorial no ocupan todo el ancho, para que quepan en una fila. */
+.tour-actions .btn {
+    width: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tour-spotlight,
+    .tour-lumi,
+    .tour-bubble.is-hop,
+    .tour-caret,
+    .tour-badge {
+        animation: none;
+    }
+
+    .tour-spotlight,
+    .tour-bubble,
+    .tour-xp-fill {
+        transition: none;
+    }
 }

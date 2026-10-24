@@ -39,11 +39,12 @@
 
             <nav class="nav" aria-label="Principal">
                 {% for href, label, icon in [
+                    ("/", "Inicio", "inicio"),
                     ("/tutoria", "Tutoría", "tutoria"),
                     ("/lectura", "Leer un libro", "libro"),
                     ("/tutor", "Cuentos", "cuentos"),
                     ("/escuela", "Base de la escuela", "escuela"),
-                    ("/", "Extraer texto", "extraer"),
+                    ("/extraer", "Extraer texto", "extraer"),
                 ] %}
                 <a href="{{ href }}" data-label="{{ label }}"
                    class="nav-link{% if request.url.path == href %} active{% endif %}"
